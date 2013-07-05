@@ -5,3 +5,6 @@ build: clean
 
 clean:
 	rm -rf images javascripts stylesheets *.html
+
+run:
+	cd _site && bundle exec middleman server
