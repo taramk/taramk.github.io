@@ -1,22 +1,89 @@
 @charset "utf-8";
 
-body {
-  background-color: pink;
-  text-align: center;
-  font-family: sans-serif;
-  font-size: 14px;
-  margin: 5em;
+@import url('http://twitter.github.com/bootstrap/assets/css/bootstrap.css');
+@import url(http://fonts.googleapis.com/css?family=Roboto:300,400,500,700);
+
+body { font-family: 'Roboto'; font-size: 15px; }
+
+.margin-top { margin-top: 60px; }
+
+.bg-div {
+    background-color: #5e497e;
+    -webkit-box-shadow: inset 0px 0px 700px 70px #1e305d;
+    box-shadow: inset 0px 0px 700px 70px #1e305d;
 }
 
 
-h1 {
-  color: rgba(0, 0, 0, .3);
-  font-weight: bold;
-  font-size: 32px;
-  text-transform: uppercase;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, .5);
-
+.branding {
+    display: inline-block;
+    font-weight: 300;
+    font-size: 1.75rem;
 }
+.branding a { color: #fff; }
+.navigation ul { float: right; }
+.navigation li {
+    display: inline-block;
+    padding: 20px 10px 0 10px;
+}
+
+.navigation li a, .navigation li a:hover, .navigation li a:focus {
+  text-decoration: none;
+    font-size: 15px;
+  color: #fff;
+    font-weight: 500;
+  text-shadow: none;
+     -webkit-transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+    transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
+  outline: 0 none;
+}
+.navigation li a:hover, .navigation li a:focus {
+  color: #fff;
+  text-shadow: -1px 1px 8px #ffc, 1px -1px 8px #fff;
+}
+
+.masthead {
+padding: 70px 0 0 0;
+margin-bottom: 0;
+color: #fff;
+    text-align: center;
+}
+.masthead h1 {
+    font-size: 4rem;
+    line-height: 4.5rem;
+    text-shadow: 1px 1px 3px #000;
+    font-weight: 500;
+}
+.masthead p {
+    font-size: 2rem;
+    text-shadow: 1px 1px 1px #000;
+    font-weight: 400;
+    line-height: 2.5rem;
+}
+
+.btn-primary {
+    margin: 15px 0;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+    background-color: #1d6ac8;
+    background-image: -webkit-linear-gradient(#45b3f3, #1d6ac8);
+    border-color: #1d6ac8 #1d6ac8 #1a5eb2;
+}
+
+.placeholder {
+    height: 200px;
+    width: 100%;
+    border-radius: 10px;
+    background-color: #ccc;
+    margin-bottom: 20px;
+}
+.img-placeholder {
+    height: 400px;
+    width: 900px;
+    background-color: #000;
+    border-radius: 10px;
+    margin: 20px auto;
+}
+
+
 
 
 
