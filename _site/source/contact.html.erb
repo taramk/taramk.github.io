@@ -1,0 +1,68 @@
+---
+title: Contact
+---
+
+<div class="container margin-top">
+
+<div class="row">
+  <div class="span6 offset3">
+
+    <div class="page-header">
+      <h1>Contact Us</h1>
+    </div>
+
+    <form accept-charset="UTF-8" action="/contact" class="new_contact_request" id="new_contact_request" method="post">
+
+
+  <fieldset id="signup-form">
+
+        <p class="input" id="js-organization-name">
+          <label for="contact_request_user_attributes_organization_attributes_name">Organization Name</label>
+          <input autofocus="autofocus" type="text">
+        </p>
+
+      <p class="input" id="name" class="span8">
+        <label for="contact_request_user_attributes_name">Your Full Name</label>
+        <input type="text">
+      </p>
+
+      <p class="input" id="email">
+        <label for="contact_request_user_attributes_email">
+          Email
+          <small>Please use your company email address (e.g. jen@github.com)</small>
+</label>        <input id="contact_request_user_attributes_email" name="contact_request[user_attributes][email]" type="email">
+      </p>
+
+      <p class="input" id="title">
+        <label for="contact_request_user_attributes_title">
+          Title <small>(e.g. Developer) - Optional</small>
+</label>        <input id="contact_request_user_attributes_title" name="contact_request[user_attributes][title]" type="text">
+      </p>
+
+      <p class="input" id="phone">
+        <label for="contact_request_user_attributes_phone">
+          Phone Number <small>Optional</small>
+</label>        <input id="contact_request_user_attributes_phone" name="contact_request[user_attributes][phone]" size="50" type="tel">
+      </p>
+
+
+      <p id="comments-textarea">
+        <label for="contact_request_comments">What can we help you with?</label>
+        <textarea cols="50" id="contact_request_comments" name="contact_request[comments]" rows="10"></textarea>
+      </p>
+
+      <p>
+        If you have questions about your existing GitHub Enterprise installation, please
+        email Enterprise Support at <a href="mailto:enterprise@github.com">enterprise@github.com</a>.
+      </p>
+
+      <p>Our mailing address is 548 4th Street, San Francisco, CA 94107.</p>
+
+    <button class="btn-primary " type="submit">Send</button>
+  </fieldset>
+
+</form>
+
+</div>
+</div>
+</div>

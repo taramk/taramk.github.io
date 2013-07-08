@@ -1,47 +1,20 @@
-@charset "utf-8";
 
-body { font-family: 'Roboto'; }
+
+body {
+  font-family: 'Roboto';
+  margin-top: 40px;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.page-header { letter-spacing: 2px; }
 
 p { color: #5A5A5A;}
 
 .margin-top { margin-top: 50px; }
 .small-margin-top { margin-top: 20px; }
 
-.bg-div {
-  background-color: #5e497e;
-/*  -webkit-box-shadow: inset 0 0 700px 70px #1e305d;
-   -moz-box-shadow: inset 0 0 700px 70px #1e305d;
-  box-shadow: inset 0 0 700px 70px #1e305d;*/
-}
-
-
-.branding {
-  display: inline-block;
-  font-weight: 300;
-  font-size: 1.75rem;
-}
-.branding a { color: #fff; }
-.navigation ul { float: right; }
-.navigation li {
-  display: inline-block;
-  padding: 20px 10px 0 10px;
-}
-
-.navigation li a, .navigation li a:hover, .navigation li a:focus {
-  text-decoration: none;
-  font-size: 15px;
-  color: #fff;
-  font-weight: 500;
-  text-shadow: none;
-  -webkit-transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
-  -moz-transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
-  transition: all 600ms cubic-bezier(0.215, 0.61, 0.355, 1);
-  outline: 0 none;
-}
-.navigation li a:hover, .navigation li a:focus {
-  color: #fff;
-  text-shadow: -1px 1px 8px #ffc, 1px -1px 8px #fff;
-}
+.bg-div { background-color: #5e497e; }
 
 .masthead {
   padding: 70px 0 0 0;
@@ -63,7 +36,7 @@ p { color: #5A5A5A;}
   color: #fff;
 }
 
-.btn-primary {
+.index .btn-primary {
   margin: 10px 0;
   text-shadow: 0 -1px 0 rgba(0,0,0,0.25), 1px 1px 5px rgba(0,0,0,0.5);
   background-color: #1d6ac8;
@@ -79,15 +52,15 @@ h3 .btn-primary { margin-left: 10px; }
 .hr {
   border-top: 1px #ddd solid;
   border-bottom: 1px #ddd solid;
-  margin: 40px 0;
+  margin-top: 40px;
   padding: 20px 0;
 }
 
-.features p.muted { font-size: 20px !important; }
+.features p.muted { font-size: 20px; }
 .features h3 {
   font-weight: 500;
-  font-size: 22px !important;
-  margin-bottom: 10px !important;
+  font-size: 22px;
+  margin-bottom: 10px;
   line-height: 24px;
 }
 
@@ -95,8 +68,44 @@ h3 .btn-primary { margin-left: 10px; }
 .used-by img:last-child { margin-right: 0; }
 .used-by p { letter-spacing: 5px; font-size: 12px; line-height: 12px;}
 
+.pricing form { margin-bottom: 30px; }
+.pricing h4 { margin-top: 30px; }
+
+.faq .span8 h3,
+.support .span8 h3,
+.pricing .span8 h3 { margin-top: 20px; margin-bottom: 0; }
+
+.faq h3:first-child,
+.support h3:first-child,
+.pricing h3:first-child { margin-top: 0; }
+
+.pricing .span4,
+.faq .span4 { margin-top: 10px; }
+
+.pricing form,
+.faq .span4 ul {
+  background-color: #dedede;
+  padding: 20px;
+  border-radius: 5px;
+}
+.faq .span4 ul {
+  list-style-type: none;
+  margin-left: 0;
+}
+.faq .span4 li {
+  margin-bottom: 15px;
+}
+.pricing form h3 {
+  font-weight: 500;
+  margin-top: 0;
+}
+.pricing input { margin-bottom: 7px; }
+
+.contact input, .contact textarea { width: 100%; }
+
 .footer a { color: #9A9A9A; }
-.footer { margin: 50px 0; }
+.footer { margin: 100px 0 50px 0; }
+
 
 
 

@@ -1,0 +1,188 @@
+---
+title: FAQ
+---
+
+<div class="container margin-top">
+
+<div class="page-header">
+  <h1>Frequently asked questions</h1>
+</div>
+
+<div class="row">
+
+  <div class="span4">
+
+      <ul id="faq-nav" class="nav-list sub-nav">
+        <li><a href="#faq-0">What is GitHub Enterprise?</a></li>
+        <li><a href="#faq-1">How is GitHub Enterprise different from GitHub.com?</a></li>
+        <li><a href="#faq-2">Can I evaluate GitHub Enterprise within my organization before purchasing?</a></li>
+        <li><a href="#faq-3">What hardware and software are required?</a></li>
+        <li><a href="#faq-4">Which Virtual Machine environments are supported?</a></li>
+        <li><a href="#faq-5">Can I use my organization's LDAP directory to manage user access?</a></li>
+        <li><a href="#faq-6">How do I control access to Git repositories?</a></li>
+        <li><a href="#faq-7">Can I use GitHub Enterprise to host projects on the public internet?</a></li>
+        <li><a href="#faq-8">How is GitHub Enterprise different from GitHub Firewall Install?</a></li>
+        <li><a href="#faq-9">What is a Virtual Appliance?</a></li>
+        <li><a href="#faq-10">Do you offer training?</a></li>
+      </ul>
+
+
+  </div> <!-- end span4 -->
+
+
+  <div class="span8">
+
+        <h3 id="faq-0">What is GitHub Enterprise?</h3>
+          <p>GitHub Enterprise is the on-premise version of <a href="https://github.com/home">GitHub.com</a>.
+          It makes collaborative coding possible and enjoyable for large-scale enterprise software development teams.
+          A full list of specs and features are detailed on our
+          <a href="http://github-public.s3.amazonaws.com/enterprise.github.com/datasheet.pdf">data sheet</a>.</p>
+
+        <h3 id="faq-1">How is GitHub Enterprise different from <a href="http://github.com">GitHub.com</a>?</h3>
+          <p>GitHub Enterprise includes the same great set of features
+          as <a href="https://github.com/home">GitHub.com</a> but packaged for
+          running on your organization's local network. All repository data is
+          stored on machines that you control, and access is integrated with your
+          organization's authentication system (LDAP, CAS). Use GitHub Enterprise
+          when you need complete control over repository and project information.</p>
+
+        <h3 id="faq-2">Can I evaluate GitHub Enterprise within my organization before purchasing?</h3>
+          <p>Yes. <strong>45-day</strong> evaluation licenses are available and may be
+          upgraded to full licenses at any time during the trial period. To get started,
+          <a href="/trial">submit a trial license request</a>. We'll contact you shortly
+          after with information on downloading the software and installing trial
+          license keys.</p>
+
+        <h3 id="faq-3">What hardware and software are required?</h3>
+          <p>GitHub Enterprise ships as a virtual machine image that includes all
+          software required to get up and running. The only additional software
+          required is a compatible virtual machine environment.</p>
+          <p>The following minimal hardware requirements are suggested for production
+          deployments:</p>
+          <ul>
+            <li>
+              <strong>Processor:</strong>
+              Two 3.0 GHz CPU cores <em>(or virtual equivalent)</em>
+            </li>
+            <li>
+              <strong>Memory:</strong>
+              8 GB
+            </li>
+            <li>
+              <strong>Disk:</strong>
+              75 GB VM root partition
+            </li>
+            <li>
+              <strong>Storage:</strong>
+              High-performance SAN or locally attached storage
+            </li>
+          </ul>
+
+        <h3 id="faq-4">Which Virtual Machine environments are supported?</h3>
+          <p>The software is currently distributed in the industry standard
+          <em>Open Virtualization Format</em>
+          (<a href="http://en.wikipedia.org/wiki/Open_Virtualization_Format">OVF</a>)
+          only. Environments with official OVF support include:
+          </p>
+          <ul>
+            <li><a href="http://www.vmware.com/">VMware</a></li>
+            <li><a href="https://www.virtualbox.org/">VirtualBox</a></li>
+          </ul>
+          <p>Please <a href="/contact">contact us</a> if your environment is not
+          listed above.</p>
+
+        <h3 id="faq-5">Can I use my organization's LDAP directory to manage user access?</h3>
+          <p>Yes. GitHub Enterprise supports user authentication via external
+          <strong>LDAP</strong> or <strong>CAS</strong> services. The setup process
+          includes a step for configuring your organization's LDAP/CAS server
+          information.</p>
+          <p>By default, GitHub Enterprise runs in a self-contained authentication
+          mode with user information stored in the GitHub Enterprise database. LDAP
+          or CAS is not required.</p>
+
+        <h3 id="faq-6">How do I control access to Git repositories?</h3>
+
+          <p>The product includes a number of features that provide complete control over
+          repository access. Each repository may specify the following general
+          access rights for any user:</p>
+
+          <ul>
+            <li><strong>Admin</strong>: Full access to the repository, including the
+            ability to control access for other users.</li>
+
+            <li><strong>Read + Write</strong>: Users may push changes into the repository
+            and pull changes from the repository.</li>
+
+            <li><strong>Read-only</strong>: Users may browse the repository via the web
+            interface and use git to fetch changes but may not push into the repository.</li>
+          </ul>
+
+          <p>In addition, GitHub Enterprise ships with the same
+          <a href="https://github.com/features/projects/collaboration">collaboration
+          features for Organizations</a> found on github.com. These simplify the process
+          of managing access for teams of users that you define.</p>
+
+        <h3 id="faq-7">Can I use GitHub Enterprise to host projects on the public internet?</h3>
+          <p>No. GitHub Enterprise is designed for collaboration within an organization
+          only. Externally accessible installations must have the <strong>Private Mode</strong>
+          option enabled. Note that <a href="https://github.com">github.com</a> offers free
+          hosting of unlimited public repositories.
+          </p>
+
+        <h3 id="faq-8">How is GitHub Enterprise different from GitHub Firewall Install?</h3>
+          <p>GitHub Enterprise is the latest release of our on-premise
+          product with a re-engineered back end and our new customer
+          dashboard. GitHub Firewall Install differed from it primarily
+          by being installed and run on a server that required manual
+          configuration. GitHub Enterprise is distributed as a Virtual
+          Appliance that runs as a virtual machine under your company's
+          existing virtualization infrastructure. This makes getting
+          started with and maintaining GitHub Enterprise much easier.</p>
+          <p>Enterprise also incorporates many of the newer improvements
+          made in GitHub.com that were not available in GitHub Firewall Install.
+          Some of the highlights include:
+          </p>
+          <ul>
+            <li><a href="https://github.com/blog/831-issues-2-0-the-next-generation">Issues 2.0</a></li>
+            <li><a href="https://github.com/blog/712-pull-requests-2-0">Pull Requests 2.0</a></li>
+            <li><a href="https://github.com/blog/941-issues-dashboard">Issues dashboard</a></li>
+            <li><a href="http://developer.github.com/v3/">API V3</a></li>
+            <li><a href="https://github.com/blog/817-behold-image-view-modes">Image view modes</a></li>
+            <li><a href="https://github.com/blog/774-git-powered-wikis-improved">New wiki editor</a></li>
+            <li><a href="https://github.com/blog/738-sidejack-prevention-phase-2-ssl-everywhere">SSL everywhere support</a></li>
+            <li><a href="https://github.com/blog/964-all-of-the-hooks">More service hooks</a></li>
+            <li>Massive improvements in speed and stability</li>
+          </ul>
+          <p>If you are a current FI customer and are interested to
+          learn about the zero-cost migration over to GitHub Enterprise,
+          please contact <a href="mailto:sales@github.com">sales@github.com</a>.
+          </p>
+
+        <h3 id="faq-9">What is a Virtual Appliance?</h3>
+          <p>You can think of a virtual appliance as the equivalent of a
+          network appliance that you might buy, mount in a rack, and plug
+          into your network. The only difference is that it runs as a
+          virtual machine inside of VMware or some other virtualization
+          platform rather than as a physical device you mount in a rack.</p>
+          <p>This saves time (you can download the appliance and all updates
+          immediately) and space (you just add it to your existing
+          virtualization infrastructure). It also makes managing, backing up,
+          and restoring the appliance easy because you can use your
+          virtualization platform's built-in snapshotting capabilities.
+          </p>
+          <p>You can learn more about virtual appliances <a href="http://www.vmware.com/appliances/getting-started/learn/overview.html">here</a>.</p>
+
+        <h3 id="faq-10">Do you offer training?</h3>
+          <p>Yes. We offer web-based training, in-person training and provide
+          a myriad of free, high-quality educational materials. Please contact the
+          <a href="http://training.github.com/" class="ga-training-faq">GitHub Training Team</a>
+          for more information.
+          </p>
+
+
+    </div> <!-- end span8 -->
+
+  </div> <!-- end row -->
+
+</div>
+
