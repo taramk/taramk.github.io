@@ -14,7 +14,11 @@ p { color: #5A5A5A;}
 .margin-top { margin-top: 50px; }
 .small-margin-top { margin-top: 20px; }
 
-.bg-div { background-color: #5e497e; }
+.bg-div { 
+  height: 200px;
+  background-image: url(images/bg.jpg);
+  background-size: contain;
+}
 
 .masthead {
   padding: 70px 0 0 0;
