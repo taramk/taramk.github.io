@@ -103,6 +103,10 @@ h3 .btn-primary { margin-left: 10px; }
 
 .contact input, .contact textarea { width: 100%; }
 
+.signin input { width: 90%; }
+
+.form-signin-github { margin-top: 50px; }
+
 .footer a { color: #9A9A9A; }
 .footer { margin: 100px 0 50px 0; }
 
