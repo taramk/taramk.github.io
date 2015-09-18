@@ -28,6 +28,24 @@
                 font-weight: 300;
                 color: #999;
             }
+            #icon {
+                height: 64px;
+                width: 64px;
+            }
+
+            @media only screen and (max-device-width : 1024px)  {
+                body {
+                    font-size: 56px;
+                }
+                #time {
+                font-size: 72px;
+                }
+                #icon {
+                    height: 128px;
+                    width: 128px;
+                }
+
+            }
         </style>
 
         <script>
@@ -73,7 +91,7 @@
             <p id="time"></p>
             <p id="temp"></p>
             <p id="highlow"></p>
-            <canvas id="icon" width="64" height="64"></canvas>
+            <canvas id="icon"></canvas>
         </div>
 
 
