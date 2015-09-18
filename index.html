@@ -13,7 +13,7 @@
                 background-color: #000;
                 color: #fff;
                 font-weight: 500;
-                font-size: 21px;
+                font-size: 72px;
             }
             p {
                 margin: 5px;
@@ -22,30 +22,13 @@
                 text-align: right;
             }
             #time {
-                font-size: 42px;
+                font-size: 112px;
             }
             .thin, #date, #highlow {
                 font-weight: 300;
-                color: #999;
-            }
-            #icon {
-                height: 64px;
-                width: 64px;
+                color: #BBB;
             }
 
-            @media only screen and (max-device-width : 1024px)  {
-                body {
-                    font-size: 56px;
-                }
-                #time {
-                font-size: 72px;
-                }
-                #icon {
-                    height: 128px;
-                    width: 128px;
-                }
-
-            }
         </style>
 
         <script>
@@ -91,7 +74,7 @@
             <p id="time"></p>
             <p id="temp"></p>
             <p id="highlow"></p>
-            <canvas id="icon"></canvas>
+            <canvas id="icon" width="128" height="128"></canvas>
         </div>
 
 
