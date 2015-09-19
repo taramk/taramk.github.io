@@ -2,11 +2,12 @@
     <head>
         <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
         <link href='https://fonts.googleapis.com/css?family=Roboto:500,300' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
         <script src="skycons.js"></script>
         <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <!-- <meta http-equiv="refresh" content="5"> -->
 
         <style>
             body {
@@ -15,7 +16,7 @@
                 background-color: #000;
                 color: #fff;
                 font-weight: 500;
-                font-size: 72px;
+                font-size: 112px;
             }
             p {
                 margin: 5px;
@@ -24,11 +25,10 @@
                 text-align: right;
             }
             #time {
-                font-size: 112px;
+                font-size: 168px;
             }
             .thin, #date, #highlow {
                 font-weight: 300;
-                color: #BBB;
             }
 
         </style>
@@ -44,7 +44,7 @@
                 var skycons = new Skycons({"color": "white"});
 
                 setInterval(function(){
-                    var date = moment().format('dddd, MMM Do')
+                    var date = moment().format('dddd [the] Do')
                     var time = moment().format('H:mm')
                     $('#date').html(date);
                     $('#time').html(time);
@@ -55,7 +55,7 @@
                       console.log(data);
 
                         $('#temp').html(Math.round(data.currently.temperature) + '&deg;F ' + '<span class="thin">' + data.currently.summary.toLowerCase() + '</span>');
-                        $('#highlow').html(Math.round(data.daily.data[0].temperatureMax) + '&deg;F' + '/' + Math.round(data.daily.data[0].temperatureMin) + '&deg;F')
+                        $('#highlow').html(Math.round(data.daily.data[0].temperatureMax) + '&deg;F' + ' ' + Math.round(data.daily.data[0].temperatureMin) + '&deg;F')
                         skycons.add(document.getElementById("icon"), data.daily.data[0].icon);
                         skycons.play();
                     });
