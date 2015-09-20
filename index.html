@@ -6,8 +6,10 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
         <script src="skycons.js"></script>
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <!-- <meta http-equiv="refresh" content="21600"> -->
 
-        <script>
+<!--         <script>
             var pushedTime
             setInterval(function() {
               $.getJSON("http://api.github.com/repos/taramk/taramk.github.io", null, function(data) {
@@ -17,10 +19,9 @@
                   pushedTime = data.pushed_at
                 })
             }, 3000)
-        </script>
+        </script> -->
 
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <!-- <meta http-equiv="refresh" content="5"> -->
+
 
         <style>
             body {
@@ -34,7 +35,7 @@
             p {
                 margin: 5px;
             }
-            .today {
+            #today {
                 text-align: right;
             }
             #time {
@@ -59,13 +60,32 @@
 
                 var skycons = new Skycons({"color": "white"});
 
+                // night time mode: hide everything, darken time
+                function setTextColor() {
+                    var hour = new Date().getHours();
+
+                    if (hour > 13 || hour < 6) {
+                        document.getElementById("today").style.color = "black";
+                        document.getElementById("time").style.color = "#555";
+                        document.getElementById("icon").style.display = "none";
+                    }
+
+                }
+
+                // get date and time and populate html, re-run every 1000ms
                 setInterval(function(){
-                    var date = moment().format('dddd [the] Do')
-                    var time = moment().format('H:mm')
+                    var date = moment().format('dddd [the] Do');
+                    var time = moment().format('H:mm');
+
+                    setTextColor();
+
                     $('#date').html(date);
                     $('#time').html(time);
                 }, 1000);
 
+
+
+                // get weather, icon and populate html + canvas, re-run every 2 mins
                 function forecast(){
                     $.getJSON(url + apiKey + "/" + lat + "," + lon + "?callback=?", function(data) {
                       console.log(data);
@@ -86,7 +106,7 @@
 
     <body>
 
-        <div class="today">
+        <div id="today">
 
             <p id="date"></p>
             <p id="time"></p>
