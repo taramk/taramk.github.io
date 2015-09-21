@@ -47,6 +47,15 @@
             #highlow {
                 font-size: 84;
             }
+            .night {
+                color: #000;
+            }
+            .night#time {
+                color: #555;
+            }
+            .day {
+                color: #fff;
+            }
 
         </style>
 
@@ -64,10 +73,15 @@
                 function setTextColor() {
                     var hour = new Date().getHours();
 
+                    skycons.color = "white";
+
+                    //css classes control text colors
                     if (hour > 22 || hour < 6) {
-                        document.getElementById("today").style.color = "black";
-                        document.getElementById("time").style.color = "#555";
+                        $("p").addClass("night");
                         document.getElementById("icon").style.display = "none";
+                    } else {
+                        $("p").addClass("day");
+                        document.getElementById("icon").style.display = "visible";
                     }
 
                 }
