@@ -31,18 +31,16 @@
                 color: #fff;
                 font-weight: 500;
                 font-size: 112px;
+                text-align: right;
             }
             p {
                 margin: 5px;
             }
-            #today {
-                text-align: right;
+            .thin {
+                font-weight: 300;
             }
             #time {
                 font-size: 168px;
-            }
-            .thin, #date, #highlow {
-                font-weight: 300;
             }
             #highlow {
                 font-size: 84;
@@ -86,7 +84,7 @@
 
                 }
 
-                // get date and time and populate html, re-run every 1000ms
+                // get date and time and populate html, run every 1000ms. check whether it should be night mode.
                 setInterval(function(){
                     var date = moment().format('dddd [the] Do');
                     var time = moment().format('H:mm');
@@ -106,7 +104,7 @@
 
                         $('#temp').html(Math.round(data.currently.temperature) + '&deg;F ' + '<span class="thin">' + data.currently.summary.toLowerCase() + '</span>');
                         $('#highlow').html(Math.round(data.daily.data[0].temperatureMax) + '&deg;F&emsp;' + Math.round(data.daily.data[0].temperatureMin) + '&deg;F')
-                        skycons.add(document.getElementById("icon"), data.daily.data[0].icon);
+                        skycons.add(document.getElementById("icon"), data.currently.icon);
                         skycons.play();
                     });
                     setTimeout(forecast, 120000)
@@ -122,10 +120,10 @@
 
         <div id="today">
 
-            <p id="date"></p>
+            <p id="date" class="thin"></p>
             <p id="time"></p>
             <p id="temp"></p>
-            <p id="highlow"></p>
+            <p id="highlow" class="thin"></p>
             <canvas id="icon" width="200" height="200"></canvas>
         </div>
 
