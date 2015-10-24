@@ -26,45 +26,32 @@
         <style>
             body {
                 font-family: "Roboto";
-                padding: 5%;
+                /*padding: 5%;*/
                 background-color: #000;
                 color: #fff;
-                font-weight: 500;
+                font-weight: 300;
+                line-height: 1;
+                font-size: 75px;
             }
             #today {
                 width: 100%;
                 margin: 0 auto;
             }
-            p {
-                margin: 5px;
-            }
-            .thin {
-                font-weight: 300;
-            }
-            #datetimediv {
-                float: left;
-            }
-            #time, #temp {
-                font-size: 100px;
-            }
-            #date {
-                font-size: 75px;
-            }
-            #tempdiv {
+            p { margin: 5px; }
+            .thin { font-weight: 300; }
+            #datetimediv { float: left; }
+            #time, #temp { font-size: 168px; font-weight: 500; }
+            #date, #highlow { font-size: 75px; }
+            #tempdiv, #predictionsdiv {
                 float: right;
+                text-align: right;
             }
-            #highlow {
-                font-size: 84;
+            #predictionsdiv {
+                margin-top: 100px;
             }
-            .night {
-                color: #000;
-            }
-            .night#time {
-                color: #555;
-            }
-            .day {
-                color: #fff;
-            }
+            .night { color: #000; }
+            .night#time { color: #555; }
+            .day { color: #fff; }
 
         </style>
 
@@ -110,7 +97,7 @@
 
                 // get date and time and populate html, run every 1000ms. check whether it should be night mode.
                 setInterval(function(){
-                    var date = moment().format('ddd [the] Do');
+                    var date = moment().format('dddd[, ]Do');
                     var time = moment().format('H:mm');
                     setTextColor();
                     $('#date').html(date);
@@ -124,7 +111,7 @@
                       console.log(data);
 
                         $('#temp').html(Math.round(data.currently.temperature) + '&deg;F ');
-                        $('#highlow').html(Math.round(data.daily.data[0].temperatureMax) + '&deg;F&emsp;' + Math.round(data.daily.data[0].temperatureMin) + '&deg;F')
+                        $('#highlow').html(Math.round(data.daily.data[0].temperatureMax) + '&deg;F<br>' + Math.round(data.daily.data[0].temperatureMin) + '&deg;F')
                         skycons.add(document.getElementById("icon"), data.currently.icon);
                         skycons.play();
                     });
@@ -164,16 +151,18 @@
 
         <div id="today">
             <div id="datetimediv">
+                <p id="date"></p>
                 <p id="time">
-                <p id="date" class="thin"></p>
             </div>
 
             <div id="tempdiv">
                 <p id="temp"></p>
-                <p id="highlow" class="thin"></p>
+                <p id="highlow"></p>
+                <canvas id="icon" width="200" height="200"></canvas>
             </div>
-            <div id="predictionsdiv"></div>
-            <canvas id="icon" width="200" height="200"></canvas>
+
+            <div id="predictionsdiv" style="clear: both;"></div>
+
         </div>
 
 
