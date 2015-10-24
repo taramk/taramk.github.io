@@ -1,7 +1,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
-        <link href='https://fonts.googleapis.com/css?family=Roboto:500,300' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Roboto:500,300|Monofett' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
@@ -31,7 +31,7 @@
                 color: #fff;
                 font-weight: 300;
                 line-height: 1;
-                font-size: 75px;
+                font-size: 65px;
             }
             #today {
                 width: 100%;
@@ -41,7 +41,6 @@
             .thin { font-weight: 300; }
             #datetimediv { float: left; }
             #time, #temp { font-size: 168px; font-weight: 500; }
-            #date, #highlow { font-size: 75px; }
             #tempdiv, #predictionsdiv {
                 float: right;
                 text-align: right;
@@ -52,6 +51,7 @@
             .night { color: #000; }
             .night#time { color: #555; }
             .day { color: #fff; }
+            .mono { font-family: "Monofett"; }
 
         </style>
 
@@ -97,7 +97,7 @@
 
                 // get date and time and populate html, run every 1000ms. check whether it should be night mode.
                 setInterval(function(){
-                    var date = moment().format('dddd[, ]Do');
+                    var date = moment().format('dddd[ the ]Do');
                     var time = moment().format('H:mm');
                     setTextColor();
                     $('#date').html(date);
@@ -129,7 +129,7 @@
                   $(xml).find("predictions").each(function() {
                     route = $(this).attr("routeTag");
                     $(this).find("direction").each(function() {
-                      $("#predictionsdiv").append(route + ": ");
+                      $("#predictionsdiv").append("<span class='mono'>" + route + "</span> ");
                       $(this).find("prediction").each(function() {
                         $("#predictionsdiv").append($(this).attr("minutes") + "<br>");
                         if ( $(this).index() == 0 ) {
