@@ -30,8 +30,10 @@
                 background-color: #000;
                 color: #fff;
                 font-weight: 500;
-                font-size: 112px;
-                text-align: right;
+            }
+            #today {
+                width: 100%;
+                margin: 0 auto;
             }
             p {
                 margin: 5px;
@@ -39,8 +41,17 @@
             .thin {
                 font-weight: 300;
             }
-            #time {
-                font-size: 168px;
+            #datetimediv {
+                float: left;
+            }
+            #time, #temp {
+                font-size: 100px;
+            }
+            #date {
+                font-size: 75px;
+            }
+            #tempdiv {
+                float: right;
             }
             #highlow {
                 font-size: 84;
@@ -70,9 +81,7 @@
                 // night time mode: hide everything, darken time
                 function setTextColor() {
                     var hour = new Date().getHours();
-
                     skycons.color = "white";
-
                     //css classes control text colors
                     if (hour > 22 || hour < 6) {
                         $("p").addClass("night");
@@ -81,20 +90,32 @@
                         $("p").addClass("day");
                         document.getElementById("icon").style.display = "visible";
                     }
-
                 }
+
+              var refresh = function() {
+                  $.ajax({
+                    type: "GET",
+                    url: "http://webservices.nextbus.com/service/publicXMLFeed?command=predictions&a=sf-muni&stopId=15728&useShortTitles=true",
+                    dataType: "xml",
+                    success: function(xml) {
+                            showPredictions(xml);
+                            $('#predictionsdiv').xml(xml);
+                            setTimeout(function() {
+                                refresh();
+                            }, interval);
+                        }
+                  });
+                };
+                refresh();
 
                 // get date and time and populate html, run every 1000ms. check whether it should be night mode.
                 setInterval(function(){
-                    var date = moment().format('dddd [the] Do');
+                    var date = moment().format('ddd [the] Do');
                     var time = moment().format('H:mm');
-
                     setTextColor();
-
                     $('#date').html(date);
                     $('#time').html(time);
                 }, 1000);
-
 
 
                 // get weather, icon and populate html + canvas, re-run every 2 mins
@@ -102,7 +123,7 @@
                     $.getJSON(url + apiKey + "/" + lat + "," + lon + "?callback=?", function(data) {
                       console.log(data);
 
-                        $('#temp').html(Math.round(data.currently.temperature) + '&deg;F ' + '<span class="thin">' + data.currently.summary.toLowerCase() + '</span>');
+                        $('#temp').html(Math.round(data.currently.temperature) + '&deg;F ');
                         $('#highlow').html(Math.round(data.daily.data[0].temperatureMax) + '&deg;F&emsp;' + Math.round(data.daily.data[0].temperatureMin) + '&deg;F')
                         skycons.add(document.getElementById("icon"), data.currently.icon);
                         skycons.play();
@@ -111,7 +132,30 @@
                 }
                 forecast();
 
+
+
+                // get muni route info
+                var direction = "";
+                var route = "";
+
+                function showPredictions(xml) {
+                  $(xml).find("predictions").each(function() {
+                    route = $(this).attr("routeTag");
+                    $(this).find("direction").each(function() {
+                      $("#predictionsdiv").append(route + ": ");
+                      $(this).find("prediction").each(function() {
+                        $("#predictionsdiv").append($(this).attr("minutes") + "<br>");
+                        if ( $(this).index() == 0 ) {
+                          return false;
+                        }
+                      });
+                      // $("#predictionsdiv").append("<br />");
+                    });
+                  });
+                }
+
             });
+
         </script>
 
     </head>
@@ -119,13 +163,19 @@
     <body>
 
         <div id="today">
+            <div id="datetimediv">
+                <p id="time">
+                <p id="date" class="thin"></p>
+            </div>
 
-            <p id="date" class="thin"></p>
-            <p id="time"></p>
-            <p id="temp"></p>
-            <p id="highlow" class="thin"></p>
+            <div id="tempdiv">
+                <p id="temp"></p>
+                <p id="highlow" class="thin"></p>
+            </div>
+            <div id="predictionsdiv"></div>
             <canvas id="icon" width="200" height="200"></canvas>
         </div>
+
 
 
     </body>
