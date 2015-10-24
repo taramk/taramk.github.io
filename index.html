@@ -44,7 +44,7 @@
                 float: right;
                 text-align: right;
             }
-            #summary { float: right; font-size: 40px; width: 50%; text-align: right;}
+            #summary { float: right; font-size: 40px; width: 50%; text-align: right; margin-top: 100px;}
             #predictionsdiv {
                 margin-top: 100px;
             }
@@ -111,7 +111,7 @@
                       console.log(data);
 
                         $('#temp').html(Math.round(data.currently.temperature) + '&deg;F ');
-                        $('#highlow').html(Math.round(data.daily.data[0].temperatureMax) + '&deg;F<br>' + Math.round(data.daily.data[0].temperatureMin) + '&deg;F')
+                        $('#highlow').html(Math.round(data.daily.data[0].temperatureMax) + '&deg;F&uarr;&ensp;' + Math.round(data.daily.data[0].temperatureMin) + '&deg;F&darr;')
                         $('#summary').html(data.daily.summary.toLowerCase())
                         // skycons.add(document.getElementById("icon"), data.currently.icon);
                         // skycons.play();
