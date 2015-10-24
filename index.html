@@ -26,7 +26,6 @@
         <style>
             body {
                 font-family: "Roboto";
-                /*padding: 5%;*/
                 background-color: #000;
                 color: #fff;
                 font-weight: 300;
@@ -45,6 +44,7 @@
                 float: right;
                 text-align: right;
             }
+            #summary { float: right; font-size: 40px; width: 50%; text-align: right;}
             #predictionsdiv {
                 margin-top: 100px;
             }
@@ -68,14 +68,14 @@
                 // night time mode: hide everything, darken time
                 function setTextColor() {
                     var hour = new Date().getHours();
-                    skycons.color = "white";
+                    // skycons.color = "white";
                     //css classes control text colors
                     if (hour > 22 || hour < 6) {
                         $("p").addClass("night");
-                        document.getElementById("icon").style.display = "none";
+                        // document.getElementById("icon").style.display = "none";
                     } else {
                         $("p").addClass("day");
-                        document.getElementById("icon").style.display = "visible";
+                        // document.getElementById("icon").style.display = "visible";
                     }
                 }
 
@@ -112,13 +112,13 @@
 
                         $('#temp').html(Math.round(data.currently.temperature) + '&deg;F ');
                         $('#highlow').html(Math.round(data.daily.data[0].temperatureMax) + '&deg;F<br>' + Math.round(data.daily.data[0].temperatureMin) + '&deg;F')
-                        skycons.add(document.getElementById("icon"), data.currently.icon);
-                        skycons.play();
+                        $('#summary').html(data.daily.summary.toLowerCase())
+                        // skycons.add(document.getElementById("icon"), data.currently.icon);
+                        // skycons.play();
                     });
                     setTimeout(forecast, 120000)
                 }
                 forecast();
-
 
 
                 // get muni route info
@@ -158,8 +158,11 @@
             <div id="tempdiv">
                 <p id="temp"></p>
                 <p id="highlow"></p>
-                <canvas id="icon" width="200" height="200"></canvas>
+
+                <!-- <canvas id="icon" width="200" height="200"></canvas> -->
             </div>
+
+            <div id="summary" style="clear: both;"></div>
 
             <div id="predictionsdiv" style="clear: both;"></div>
 
