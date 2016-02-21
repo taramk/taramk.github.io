@@ -44,7 +44,7 @@
                 float: right;
                 text-align: right;
             }
-            #summary { float: right; font-size: 40px; width: 50%; text-align: right; margin-top: 100px;}
+            #weekly-summary { float: right; font-size: 40px; width: 50%; text-align: right; margin-top: 100px;}
             #predictionsdiv { margin-top: 500px; }
             .night { color: #000; }
             .night#time { color: #555; }
@@ -61,47 +61,26 @@
                 var lon = -122.4380300;
                 var data;
 
-                var skycons = new Skycons({"color": "white"});
-
                 // night time mode: hide everything, darken time
                 function setTextColor() {
                     var hour = new Date().getHours();
-                    // skycons.color = "white";
                     //css classes control text colors
                     if (hour > 22 || hour < 6) {
                         $("p").addClass("night");
-                        // document.getElementById("icon").style.display = "none";
                     } else {
                         $("p").addClass("day");
-                        // document.getElementById("icon").style.display = "visible";
                     }
                 }
-
-              var refresh = function() {
-                  $.ajax({
-                    type: "GET",
-                    url: "http://webservices.nextbus.com/service/publicXMLFeed?command=predictions&a=sf-muni&stopId=15728&useShortTitles=true",
-                    dataType: "xml",
-                    success: function(xml) {
-                            showPredictions(xml);
-                            $('#predictionsdiv').xml(xml);
-                            setTimeout(function() {
-                                refresh();
-                            }, interval);
-                        }
-                  });
-                };
-                refresh();
 
                 // get date and time and populate html, run every 1000ms. check whether it should be night mode.
                 setInterval(function(){
                     var date = moment().format('dddd[ the ]Do');
                     var time = moment().format('H:mm');
+                    // showPredictions();
                     setTextColor();
                     $('#date').html(date);
                     $('#time').html(time);
                 }, 1000);
-
 
                 // get weather, icon and populate html + canvas, re-run every 2 mins
                 function forecast(){
@@ -110,35 +89,11 @@
 
                         $('#temp').html(Math.round(data.currently.temperature) + '&deg;F ');
                         $('#highlow').html(Math.round(data.daily.data[0].temperatureMax) + '&deg;F&uarr;&ensp;' + Math.round(data.daily.data[0].temperatureMin) + '&deg;F&darr;')
-                        $('#summary').html(data.daily.summary.toLowerCase())
-                        // skycons.add(document.getElementById("icon"), data.currently.icon);
-                        // skycons.play();
+                        $('#weekly-summary').html(data.daily.summary.toLowerCase())
                     });
                     setTimeout(forecast, 120000)
                 }
                 forecast();
-
-
-                // get muni route info
-                var direction = "";
-                var route = "";
-
-                function showPredictions(xml) {
-                  $(xml).find("predictions").each(function() {
-                    route = $(this).attr("routeTag");
-                    $(this).find("direction").each(function() {
-                      $("#predictionsdiv").append("<span class='mono'>" + route + "</span> ");
-                      $(this).find("prediction").each(function() {
-                        $("#predictionsdiv").append($(this).attr("minutes") + "<br>");
-                        if ( $(this).index() == 0 ) {
-                          return false;
-                        }
-                      });
-                      // $("#predictionsdiv").append("<br />");
-                    });
-                  });
-                }
-
             });
 
         </script>
@@ -157,10 +112,9 @@
                 <p id="temp"></p>
                 <p id="highlow"></p>
 
-                <!-- <canvas id="icon" width="200" height="200"></canvas> -->
             </div>
 
-            <div id="summary" style="clear: both;"></div>
+            <div id="weekly-summary" style="clear: both;"></div>
 
             <div id="predictionsdiv" style="clear: both;"></div>
 
