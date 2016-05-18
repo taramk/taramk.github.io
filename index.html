@@ -1,7 +1,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
-        <link href='https://fonts.googleapis.com/css?family=Roboto:500,300|Monofett' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Work+Sans:500,300' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
@@ -9,47 +9,54 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta http-equiv="refresh" content="1800">
 
-<!--         <script>
-            var pushedTime
-            setInterval(function() {
-              $.getJSON("http://api.github.com/repos/taramk/taramk.github.io", null, function(data) {
-                  if (pushedTime != null && pushedTime != data.pushed_at) {
-                    window.location.href = window.location.href
-                  }
-                  pushedTime = data.pushed_at
-                })
-            }, 3000)
-        </script> -->
-
 
 
         <style>
+
+        /* general styles ----------*/
             body {
-                font-family: "Roboto";
+                font-family: "Work Sans";
                 background-color: #000;
                 color: #fff;
                 font-weight: 300;
                 line-height: 1;
                 font-size: 65px;
             }
-            #today {
-                width: 100%;
-                margin: 0 auto;
+            p {
+                margin: 5px;
             }
-            p { margin: 5px; }
-            .thin { font-weight: 300; }
-            #datetimediv { float: left; }
-            #time, #temp { font-size: 168px; font-weight: 500; }
-            #tempdiv, #predictionsdiv {
+
+        /* layout ----------*/
+            #container {
+                width: 100%;
+            }
+            #left {
+                float: left;
+                text-align: left;
+                width: 75%;
+            }
+            #right {
                 float: right;
                 text-align: right;
+                width: 25%;
             }
-            #weekly-summary { float: right; font-size: 40px; width: 50%; text-align: right; margin-top: 100px;}
-            #predictionsdiv { margin-top: 500px; }
-            .night { color: #000; }
-            .night#time { color: #555; }
-            .day { color: #fff; }
-            .mono { font-family: "Monofett"; }
+            canvas {
+                float: right;
+            }
+            p[id*="temp"] {
+                float: left;
+                width: 70%;
+                text-align: right;
+            }
+
+        /* specific styles ----------*/
+            /* hide everything at night */
+            .night { display: none; }
+
+            #time {
+                font-weight: 500;
+                font-size: 168px;
+            }
 
         </style>
 
@@ -61,12 +68,14 @@
                 var lon = -122.4380300;
                 var data;
 
+                var skycons = new Skycons({"color": "white"});
+
                 // night time mode: hide everything, darken time
                 function setTextColor() {
                     var hour = new Date().getHours();
                     //css classes control text colors
-                    if (hour > 22 || hour < 6) {
-                        $("p").addClass("night");
+                    if (hour > 23 || hour < 6) {
+                        $("p", "div", "canvas").addClass("night");
                     } else {
                         $("p").addClass("day");
                     }
@@ -74,7 +83,7 @@
 
                 // get date and time and populate html, run every 1000ms. check whether it should be night mode.
                 setInterval(function(){
-                    var date = moment().format('dddd[ the ]Do');
+                    var date = moment().format('dddd[ the ]Do').toLowerCase();
                     var time = moment().format('H:mm');
                     // showPredictions();
                     setTextColor();
@@ -88,9 +97,19 @@
                       console.log(data);
 
                         $('#temp').html(Math.round(data.currently.temperature) + '&deg;F ');
-                        $('#highlow').html(Math.round(data.daily.data[0].temperatureMax) + '&deg;F&uarr;&ensp;' + Math.round(data.daily.data[0].temperatureMin) + '&deg;F&darr;')
-                        $('#weekly-summary').html(data.daily.summary.toLowerCase())
+
+                        // daily temp list
+                        var weather = [];
+                        for (i=0; i<7; i++) {
+                            // weather.push(Math.round(data.daily.data[i].temperatureMax) + '<br>');
+                            skycons.add(document.getElementById("day" + i), data.daily.data[i].icon);
+                            $('#temp' + i).html(Math.round(data.daily.data[i].temperatureMax))
+                        }
+
+                        // $('#weekly-summary').html(weather)
+                        skycons.play();
                     });
+
                     setTimeout(forecast, 120000)
                 }
                 forecast();
@@ -102,21 +121,23 @@
 
     <body>
 
-        <div id="today">
-            <div id="datetimediv">
+        <div id="container">
+            <div id="left">
                 <p id="date"></p>
                 <p id="time"></p>
-            </div>
 
-            <div id="tempdiv">
                 <p id="temp"></p>
-                <p id="highlow"></p>
-
             </div>
 
-            <div id="weekly-summary" style="clear: both;"></div>
-
-            <div id="predictionsdiv" style="clear: both;"></div>
+            <div id="right">
+                <p id="temp0"></p><canvas width="60" height="60" id="day0"></canvas>
+                <p id="temp1"></p><canvas width="60" height="60" id="day1"></canvas>
+                <p id="temp2"></p><canvas width="60" height="60" id="day2"></canvas>
+                <p id="temp3"></p><canvas width="60" height="60" id="day3"></canvas>
+                <p id="temp4"></p><canvas width="60" height="60" id="day4"></canvas>
+                <p id="temp5"></p><canvas width="60" height="60" id="day5"></canvas>
+                <p id="temp6"></p><canvas width="60" height="60" id="day6"></canvas>
+            </div>
 
         </div>
 
