@@ -33,7 +33,7 @@
             #left {
                 float: left;
                 text-align: left;
-                width: 75%;
+                width: 50%;
             }
             #right {
                 float: right;
@@ -43,9 +43,9 @@
             canvas {
                 float: right;
             }
-            p[id*="temp"] {
+            p[id^="temp"] {
                 float: left;
-                width: 70%;
+                width: 60%;
                 text-align: right;
             }
 
@@ -56,6 +56,16 @@
             #time {
                 font-weight: 500;
                 font-size: 168px;
+            }
+            p[id="temp0"] {
+                font-size: 100px;
+                font-weight: 500;
+                margin-bottom: 50px;
+            }
+            #current-temp {
+                font-size: 100px;
+                margin-top: 100px;
+                font-weight: 500;
             }
 
         </style>
@@ -73,7 +83,7 @@
                 // night time mode: hide everything, darken time
                 function setTextColor() {
                     var hour = new Date().getHours();
-                    //css classes control text colors
+                    //css class controls night mode, but i could probably just hide everything here
                     if (hour > 23 || hour < 6) {
                         $("p", "div", "canvas").addClass("night");
                     } else {
@@ -85,7 +95,6 @@
                 setInterval(function(){
                     var date = moment().format('dddd[ the ]Do').toLowerCase();
                     var time = moment().format('H:mm');
-                    // showPredictions();
                     setTextColor();
                     $('#date').html(date);
                     $('#time').html(time);
@@ -96,17 +105,14 @@
                     $.getJSON(url + apiKey + "/" + lat + "," + lon + "?callback=?", function(data) {
                       console.log(data);
 
-                        $('#temp').html(Math.round(data.currently.temperature) + '&deg;F ');
+                        $('#current-temp').html(Math.round(data.currently.temperature) + '&deg;F ');
 
                         // daily temp list
                         var weather = [];
                         for (i=0; i<7; i++) {
-                            // weather.push(Math.round(data.daily.data[i].temperatureMax) + '<br>');
                             skycons.add(document.getElementById("day" + i), data.daily.data[i].icon);
                             $('#temp' + i).html(Math.round(data.daily.data[i].temperatureMax))
                         }
-
-                        // $('#weekly-summary').html(weather)
                         skycons.play();
                     });
 
@@ -126,11 +132,11 @@
                 <p id="date"></p>
                 <p id="time"></p>
 
-                <p id="temp"></p>
+                <p id="current-temp"></p>
             </div>
 
             <div id="right">
-                <p id="temp0"></p><canvas width="60" height="60" id="day0"></canvas>
+                <p id="temp0"></p><canvas width="100" height="100" id="day0"></canvas>
                 <p id="temp1"></p><canvas width="60" height="60" id="day1"></canvas>
                 <p id="temp2"></p><canvas width="60" height="60" id="day2"></canvas>
                 <p id="temp3"></p><canvas width="60" height="60" id="day3"></canvas>
