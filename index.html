@@ -9,10 +9,7 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta http-equiv="refresh" content="1800">
 
-
-
         <style>
-
         /* general styles ----------*/
             body {
                 font-family: "Work Sans";
@@ -25,7 +22,6 @@
             p {
                 margin: 5px;
             }
-
         /* layout ----------*/
             #container {
                 width: 100%;
@@ -33,7 +29,7 @@
             #left {
                 float: left;
                 text-align: left;
-                width: 60%;
+                width: 65%;
             }
             #current-temp {
                 position: absolute;
@@ -50,14 +46,10 @@
             }
             p[id^="temp"] {
                 float: left;
-                width: 60%;
+                width: 55%;
                 text-align: right;
             }
-
         /* specific styles ----------*/
-            /* hide everything at night */
-            .night { display: none; }
-
             #time {
                 font-weight: 500;
                 font-size: 168px;
@@ -72,7 +64,6 @@
                 margin-top: 100px;
                 font-weight: 500;
             }
-
         </style>
 
         <script>
@@ -82,61 +73,55 @@
                 var lat = 37.7608960;
                 var lon = -122.4380300;
                 var data;
-
                 var skycons = new Skycons({"color": "white"});
 
-                // night time mode: hide everything, darken time
-                function setTextColor() {
+                function nightMode() {
                     var hour = new Date().getHours();
-                    //css class controls night mode, but i could probably just hide everything here
                     if (hour > 23 || hour < 6) {
-                        $("p", "div", "canvas").addClass("night");
-                    } else {
-                        $("p").addClass("day");
+                        $("div").hide().css("visibility", "hidden");
                     }
                 }
 
-                // get date and time and populate html, run every 1000ms. check whether it should be night mode.
+                // get date and time and populate html, check for night mode
                 setInterval(function(){
                     var date = moment().format('dddd[ the ]Do').toLowerCase();
                     var time = moment().format('H:mm');
-                    setTextColor();
+                    nightMode();
                     $('#date').html(date);
                     $('#time').html(time);
-                }, 1000);
+                }, 100);
 
                 // get weather, icon and populate html + canvas, re-run every 2 mins
                 function forecast(){
                     $.getJSON(url + apiKey + "/" + lat + "," + lon + "?callback=?", function(data) {
-                      console.log(data);
-
                         $('#current-temp').html(Math.round(data.currently.temperature) + '&deg;F ');
 
                         // daily temp list
-                        var weather = [];
                         for (i=0; i<7; i++) {
                             skycons.add(document.getElementById("day" + i), data.daily.data[i].icon);
-                            $('#temp' + i).html(Math.round(data.daily.data[i].temperatureMax))
+                            var weekday = moment(data.daily.data[i].sunriseTime, "X").format("E")
+
+                            if (weekday > 5) {
+                                $('#temp' + i).html('<strong>' + Math.round(data.daily.data[i].temperatureMax) + '</strong>')
+                            } else {
+                                $('#temp' + i).html(Math.round(data.daily.data[i].temperatureMax))
+                            }
                         }
                         skycons.play();
                     });
-
                     setTimeout(forecast, 120000)
                 }
                 forecast();
             });
-
         </script>
 
     </head>
 
     <body>
-
         <div id="container">
             <div id="left">
                 <p id="date"></p>
                 <p id="time"></p>
-
                 <p id="current-temp"></p>
             </div>
 
@@ -149,10 +134,7 @@
                 <p id="temp5"></p><canvas width="65" height="65" id="day5"></canvas>
                 <p id="temp6"></p><canvas width="65" height="65" id="day6"></canvas>
             </div>
-
         </div>
-
-
-
     </body>
+
 </html>
