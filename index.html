@@ -75,6 +75,8 @@
                 var data;
                 var skycons = new Skycons({"color": "white"});
 
+                // if the time is between 11 and 5am, hide the UI elements
+                // so the screen is dark
                 function nightMode() {
                     var hour = new Date().getHours();
                     if (hour > 22 || hour < 6) {
@@ -101,6 +103,7 @@
                             skycons.add(document.getElementById("day" + i), data.daily.data[i].icon);
                             var weekday = moment(data.daily.data[i].sunriseTime, "X").format("E")
 
+                            // if it's the weekend, bold the temperature in the list for scannability
                             if (weekday > 5) {
                                 $('#temp' + i).html('<strong>' + Math.round(data.daily.data[i].temperatureMax) + '</strong>')
                             } else {
