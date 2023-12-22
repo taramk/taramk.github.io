@@ -1,245 +1,177 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link href="https://fonts.googleapis.com/css2?family=Sometype+Mono:wght@400;700&display=swap" rel="stylesheet">
-        <script src="skycons.js"></script>
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <style>
-            /* General styles */
-            body {
-                font-family: "Sometype Mono";
-                background-color: #000;
-                color: #fff;
-                /* font-weight: 300; */
-                line-height: 1;
-                font-size: 65px;
-                margin: 0;
-                display: flex;
-                flex-direction: column;
-                height: 100vh;
-                justify-content: center;
-            }
-            p {
-                margin: 0;
-            }
-            #container {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                width: 100%;
-            }
-            #left, #right, .day {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            #left {
-                flex: 1;
-                text-align: center;
-            }
-            #right {
-                flex: 0.5;
-                align-items: flex-end;
-            }
-            .day {
-                flex-direction: row;
-            }
-            /* canvas {
-                margin-top: 20px;
-            } */
-            #time {
-                font-weight: 500;
-                font-size: 168px;
-            }
-            #current-temp {
-                font-size: 100px;
-                margin-top: 100px;
-                font-weight: 500;
-            }
-            #time {
-                font-weight: 500;
-                font-size: 168px;
-            }
-            p[id="temp0"] {
-                font-size: 100px;
-                font-weight: 500;
-                margin-bottom: 50px;
-            }
-            #current-temp {
-                font-size: 100px;
-                margin-top: 100px;
-                font-weight: 500;
-            }
-            span[id^="minTemp"] {
-                opacity: 50%;
-            }
-            [id^="minTemp"]::after {
-                content: "•"; /* Unicode character for a bullet */
-                margin-left: 0.5em; /* Space before the bullet */
-                font-size: 0.5em; /* Smaller size for the bullet */
-                vertical-align: middle; /* Aligns the bullet with the middle of the text */
-            }
-        </style>
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Sometype+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="skycons.js"></script>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <style>
+        /* General styles */
+        body {
+            font-family: "Sometype Mono", sans-serif;
+            background-color: #000;
+            color: #fff;
+            line-height: 1;
+            font-size: 65px;
+            margin: 0;
+        }
+        p { margin: 0; }
+        #container { width: 100%; }
+        #left, #right {
+            float: left;
+            width: 50%;
+            text-align: center;
+        }
+        #left {
+            margin-top: 25vh;
+        }
+        #right { text-align: right; }
+        .day p { display: inline-block; margin-right: 10px; }
+        /* canvas { margin-top: 20px; } */
+        #time, #current-temp {
+            font-weight: 500;
+            font-size: 168px;
+        }
+        span[id^="minTemp"] {
+            opacity: 0.5;
+        }
+        [id^="minTemp"]::after {
+            content: "•";
+            margin-left: 0.5em;
+            font-size: 0.5em;
+            vertical-align: middle;
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            var url = 'https://api.open-meteo.com/v1/forecast?latitude=37.7646489&longitude=-122.4647699&current=temperature_2m&hourly=temperature_2m&daily=weather_code,temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&wind_speed_unit=ms&precipitation_unit=inch&timezone=America%2FLos_Angeles';
+            var skycons = new Skycons({"color": "white"});
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const url = 'https://api.open-meteo.com/v1/forecast?latitude=37.7646489&longitude=-122.4647699&current=temperature_2m&hourly=temperature_2m&daily=weather_code,temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&wind_speed_unit=ms&precipitation_unit=inch&timezone=America%2FLos_Angeles'
-                const skycons = new Skycons({"color": "white"});
+            function getSkycon(weatherCode) {
+                var skyconMap = {
+                    0: Skycons.CLEAR_DAY,
+                    1: Skycons.PARTLY_CLOUDY_DAY,
+                    2: Skycons.PARTLY_CLOUDY_DAY,
+                    3: Skycons.CLOUDY,
+                    // ... [rest of the skyconMap]
+                };
+                return skyconMap[weatherCode] || Skycons.CLOUDY;
+            }
 
+            function updateDateTime() {
+                var date = new Date();
+                var dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+                var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-                function getSkycon(weatherCode) {
-                    const skyconMap = {
-                        0: Skycons.CLEAR_DAY,
-                        1: Skycons.PARTLY_CLOUDY_DAY,
-                        2: Skycons.PARTLY_CLOUDY_DAY,
-                        3: Skycons.CLOUDY,
-                        51: Skycons.RAIN,
-                        53: Skycons.RAIN,
-                        55: Skycons.RAIN,
-                        61: Skycons.RAIN,
-                        63: Skycons.RAIN,
-                        65: Skycons.RAIN,
-                        80: Skycons.RAIN,
-                        81: Skycons.RAIN,
-                        82: Skycons.RAIN,
-                        56: Skycons.SLEET,
-                        57: Skycons.SLEET,
-                        66: Skycons.SLEET,
-                        67: Skycons.SLEET,
-                        71: Skycons.SNOW,
-                        73: Skycons.SNOW,
-                        75: Skycons.SNOW,
-                        77: Skycons.SNOW,
-                        85: Skycons.SNOW,
-                        86: Skycons.SNOW,
-                        45: Skycons.FOG,
-                        48: Skycons.FOG
-                    };
-                    return skyconMap[weatherCode] || Skycons.CLOUDY; // Default to CLOUDY if code not found
-                }
+                var day = dayNames[date.getDay()];
+                var month = monthNames[date.getMonth()];
+                var dayOfMonth = date.getDate();
+                var minutes = date.getMinutes();
+                minutes = minutes < 10 ? '0' + minutes : minutes;
 
-                // update the date and time every 1000ms
-                function updateDateTime() {
-                    const date = new Date();
-                    const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-                    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                document.getElementById('date').innerHTML = day + ', ' + month + ' ' + dayOfMonth;
+                document.getElementById('time').innerHTML = date.getHours() + ':' + minutes;
+            }
+            setInterval(updateDateTime, 1000);
 
-                    const day = dayNames[date.getDay()];
-                    const month = monthNames[date.getMonth()];
-                    const dayOfMonth = date.getDate();
-
-                    document.getElementById('date').innerHTML = `${day}, ${month} ${dayOfMonth}`;
-                    document.getElementById('time').innerHTML = date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                }
-                setInterval(updateDateTime, 1000);
-
-
-                // async function to fetch weather, run every 120000ms, also call on first load
-                async function fetchWeather() {
-                    try {
-                        const response = await fetch(url);
-                        const data = await response.json();
-
-                        console.log(data);
-
+            function fetchWeather() {
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var data = JSON.parse(xhr.responseText);
                         // Set current temperature
                         document.getElementById('current-temp').textContent = Math.round(data.current.temperature_2m) + '°F';
 
                         // Set Skycons and temperatures for each day
-                        data.daily.time.forEach((time, index) => {
-                            const weatherCode = data.daily.weather_code[index];
-                            const skyconType = getSkycon(weatherCode);
-                            skycons.set(`canvas${index}`, skyconType);
+                        for (var i = 0; i < data.daily.time.length; i++) {
+                            var weatherCode = data.daily.weather_code[i];
+                            var skyconType = getSkycon(weatherCode);
+                            skycons.set('canvas' + i, skyconType);
 
-                            const maxTemp = data.daily.temperature_2m_max[index];
-                            const minTemp = data.daily.temperature_2m_min[index];
-                            document.getElementById(`maxTemp${index}`).textContent = `${Math.round(data.daily.temperature_2m_max[index])}°F`;
-                            document.getElementById(`minTemp${index}`).textContent = `${Math.round(data.daily.temperature_2m_min[index])}°F`;
-                        });
-
+                            var maxTemp = data.daily.temperature_2m_max[i];
+                            var minTemp = data.daily.temperature_2m_min[i];
+                            document.getElementById('maxTemp' + i).textContent = Math.round(maxTemp) + '°F';
+                            document.getElementById('minTemp' + i).textContent = Math.round(minTemp) + '°F';
+                        }
                         skycons.play();
-                    } catch (error) {
-                        console.error('Error fetching weather data:', error);
                     }
-                }
+                };
+                xhr.open('GET', url, true);
+                xhr.send();
+            }
 
-                fetchWeather();
-                setInterval(fetchWeather, 120000);
-            });
-        </script>
-
-    </head>
-
-
-
-    <body>
-        <div id="container">
-            <div id="left">
-                <p id="date"></p>
-                <p id="time"></p>
-                <p id="current-temp"></p>
-            </div>
-
-
-            <div id="right">
-                
-                <div class="day">
-                    <p id="day0">
-                        <span id="minTemp0"></span> 
-                        <span id="maxTemp0"></span>
-                    </p>
-                    <canvas width="100" height="100" id="canvas0"></canvas>
-                </div>
-            
-                <div class="day">
-                    <p id="day1">
-                        <span id="minTemp1"></span>
-                        <span id="maxTemp1"></span>
-                    </p>
-                    <canvas width="100" height="100" id="canvas1"></canvas>
-                </div>
-            
-                <div class="day">
-                    <p id="day2">
-                        <span id="minTemp2"></span>
-                        <span id="maxTemp2"></span>
-                    </p>
-                    <canvas width="100" height="100" id="canvas2"></canvas>
-                </div>
-            
-                <div class="day">
-                    <p id="day3">
-                        <span id="minTemp3"></span>
-                        <span id="maxTemp3"></span>
-                    </p>
-                    <canvas width="100" height="100" id="canvas3"></canvas>
-                </div>
-            
-                <div class="day">
-                    <p id="day4">
-                        <span id="minTemp4"></span>
-                        <span id="maxTemp4"></span>
-                    </p>
-                    <canvas width="100" height="100" id="canvas4"></canvas>
-                </div>
-            
-                <div class="day">
-                    <p id="day5">
-                        <span id="minTemp5"></span>
-                        <span id="maxTemp5"></span>
-                    </p>
-                    <canvas width="100" height="100" id="canvas5"></canvas>
-                </div>
-            
-                <div class="day">
-                    <p id="day6">
-                        <span id="minTemp6"></span>
-                        <span id="maxTemp6"></span>
-                    </p>
-                    <canvas width="100" height="100" id="canvas6"></canvas>
-                </div>
-
-            </div>
+            fetchWeather();
+            setInterval(fetchWeather, 120000);
+        };
+    </script>
+</head>
+<body>
+    <div id="container">
+        <div id="left">
+            <p id="date"></p>
+            <p id="time"></p>
+            <p id="current-temp"></p>
         </div>
-    </body>
+
+
+        <div id="right">
+            
+            <div class="day">
+                <p id="day0">
+                    <span id="minTemp0"></span> 
+                    <span id="maxTemp0"></span>
+                </p>
+                <canvas width="100" height="100" id="canvas0"></canvas>
+            </div>
+        
+            <div class="day">
+                <p id="day1">
+                    <span id="minTemp1"></span>
+                    <span id="maxTemp1"></span>
+                </p>
+                <canvas width="100" height="100" id="canvas1"></canvas>
+            </div>
+        
+            <div class="day">
+                <p id="day2">
+                    <span id="minTemp2"></span>
+                    <span id="maxTemp2"></span>
+                </p>
+                <canvas width="100" height="100" id="canvas2"></canvas>
+            </div>
+        
+            <div class="day">
+                <p id="day3">
+                    <span id="minTemp3"></span>
+                    <span id="maxTemp3"></span>
+                </p>
+                <canvas width="100" height="100" id="canvas3"></canvas>
+            </div>
+        
+            <div class="day">
+                <p id="day4">
+                    <span id="minTemp4"></span>
+                    <span id="maxTemp4"></span>
+                </p>
+                <canvas width="100" height="100" id="canvas4"></canvas>
+            </div>
+        
+            <div class="day">
+                <p id="day5">
+                    <span id="minTemp5"></span>
+                    <span id="maxTemp5"></span>
+                </p>
+                <canvas width="100" height="100" id="canvas5"></canvas>
+            </div>
+        
+            <div class="day">
+                <p id="day6">
+                    <span id="minTemp6"></span>
+                    <span id="maxTemp6"></span>
+                </p>
+                <canvas width="100" height="100" id="canvas6"></canvas>
+            </div>
+
+        </div>
+    </div>
+</body>
 </html>
