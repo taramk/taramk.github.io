@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: "https://jsonplaceholder.typicode.com/posts/1",
+                type: "GET",
+                success: function(data) {
+                    console.log("Data received:", data);
+                    alert("Data received: " + JSON.stringify(data));
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error("Error fetching data: " + textStatus, errorThrown);
+                    alert("Error fetching data: " + textStatus + ", " + errorThrown);
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Test AJAX Request</h1>
+</body>
+</html>
