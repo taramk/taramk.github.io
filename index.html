@@ -90,7 +90,7 @@
                 var month = months[now.getMonth()];
                 var hours = now.getHours();
                 var minutes = now.getMinutes() < 10 ? '0' + now.getMinutes() : now.getMinutes();
-                return day + ' the ' + date + ' of ' + month + ', ' + hours + ':' + minutes;
+                return day + ' ' + month + ' ' + date + ', ' + hours + ':' + minutes;
             }
 
             function updateDateTime() {
@@ -102,6 +102,8 @@
 
             function forecast() {
                 $.getJSON(url, function(data) {
+                    console.log("Data received:", data);
+
                     $('#current-temp').html(Math.round(data.current.temperature_2m) + '&deg;F');
 
                     for (var i = 0; i < data.daily.time.length; i++) {
@@ -113,6 +115,8 @@
                         $('#temp' + i).html(Math.round(data.daily.temperature_2m_max[i]) + '&deg;F');
                     }
                     skycons.play();
+                }).fail(function(jqXHR, textStatus, errorThrown) {
+                    console.error("Error fetching data:", textStatus, errorThrown); // Log any errors
                 });
                 setTimeout(forecast, 120000); // Re-run every 2 minutes
             }
