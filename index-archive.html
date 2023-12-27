@@ -1,0 +1,143 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+        <link href='https://fonts.googleapis.com/css?family=Work+Sans:500,300' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+        <script src="skycons.js"></script>
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta http-equiv="refresh" content="1800">
+
+        <style>
+        /* general styles ----------*/
+            body {
+                font-family: "Work Sans";
+                background-color: #000;
+                color: #fff;
+                font-weight: 300;
+                line-height: 1;
+                font-size: 65px;
+            }
+            p {
+                margin: 5px;
+            }
+        /* layout ----------*/
+            #container {
+                width: 100%;
+            }
+            #left {
+                float: left;
+                text-align: left;
+                width: 65%;
+            }
+            #current-temp {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+            }
+            #right {
+                float: right;
+                text-align: right;
+                width: 35%;
+            }
+            canvas {
+                float: right;
+            }
+            p[id^="temp"] {
+                float: left;
+                width: 55%;
+                text-align: right;
+            }
+        /* specific styles ----------*/
+            #time {
+                font-weight: 500;
+                font-size: 168px;
+            }
+            p[id="temp0"] {
+                font-size: 100px;
+                font-weight: 500;
+                margin-bottom: 50px;
+            }
+            #current-temp {
+                font-size: 100px;
+                margin-top: 100px;
+                font-weight: 500;
+            }
+        </style>
+
+        <script>
+            $( document ).ready(function() {
+                var apiKey = '924e9d9107d45f7ecb44b283db5bc86b';
+                var url = 'https://api.forecast.io/forecast/';
+                var lat = 37.7608960;
+                var lon = -122.4380300;
+                var data;
+                var skycons = new Skycons({"color": "white"});
+
+                // if the time is between 11 and 5am, hide the UI elements
+                // so the screen is dark
+                function nightMode() {
+                    var hour = new Date().getHours();
+                    if (hour > 22 || hour < 6) {
+                        $("div").hide().css("visibility", "hidden");
+                    }
+                }
+
+                // get date and time and populate html, check for night mode
+                setInterval(function(){
+                    var date = moment().format('dddd[ the ]Do').toLowerCase();
+                    var time = moment().format('H:mm');
+                    nightMode();
+                    $('#date').html(date);
+                    $('#time').html(time);
+                }, 100);
+
+                // get weather, icon and populate html + canvas, re-run every 2 mins
+                function forecast(){
+                    $.getJSON(url + apiKey + "/" + lat + "," + lon + "?callback=?", function(data) {
+                        $('#current-temp').html(Math.round(data.currently.temperature) + '&deg;F ');
+
+                        // daily temp list
+                        for (i=0; i<7; i++) {
+                            skycons.add(document.getElementById("day" + i), data.daily.data[i].icon);
+                            var weekday = moment(data.daily.data[i].sunriseTime, "X").format("E")
+
+                            // if it's the weekend, bold the temperature in the list for scannability
+                            if (weekday > 5) {
+                                $('#temp' + i).html('<strong>' + Math.round(data.daily.data[i].temperatureMax) + '</strong>')
+                            } else {
+                                $('#temp' + i).html(Math.round(data.daily.data[i].temperatureMax))
+                            }
+                        }
+                        skycons.play();
+                    });
+                    setTimeout(forecast, 120000)
+                }
+                forecast();
+            });
+        </script>
+
+    </head>
+
+    <body>
+        <div id="container">
+            <div id="left">
+                <p id="date"></p>
+                <p id="time"></p>
+                <p id="current-temp"></p>
+            </div>
+
+            <div id="right">
+                <p id="temp0"></p><canvas width="100" height="100" id="day0"></canvas>
+                <p id="temp1"></p><canvas width="65" height="65" id="day1"></canvas>
+                <p id="temp2"></p><canvas width="65" height="65" id="day2"></canvas>
+                <p id="temp3"></p><canvas width="65" height="65" id="day3"></canvas>
+                <p id="temp4"></p><canvas width="65" height="65" id="day4"></canvas>
+                <p id="temp5"></p><canvas width="65" height="65" id="day5"></canvas>
+                <p id="temp6"></p><canvas width="65" height="65" id="day6"></canvas>
+            </div>
+        </div>
+    </body>
+
+</html>

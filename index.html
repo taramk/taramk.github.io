@@ -77,21 +77,27 @@
                 var xhr = new XMLHttpRequest();
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState === 4 && xhr.status === 200) {
-                        var data = JSON.parse(xhr.responseText);
-                        // Set current temperature
-                        document.getElementById('current-temp').textContent = Math.round(data.current.temperature_2m) + '°F';
+                        var responseText = xhr.responseText;
 
-                        // Set Skycons and temperatures for each day
-                        for (var i = 0; i < data.daily.time.length; i++) {
-                            var weatherCode = data.daily.weather_code[i];
-                            var skyconType = getSkycon(weatherCode);
-                            skycons.set('canvas' + i, skyconType);
+                        // Manual parsing of the response
+                        var currentTempMatch = responseText.match(/"current":\{"time":"[^"]+","interval":\d+,"temperature_2m":([^}]+)\}/);
+                        var dailyTempMaxMatch = responseText.match(/"daily":\{"time":\[[^\]]+\],"weather_code":\[[^\]]+\],"temperature_2m_max":(\[[^\]]+\])/);
+                        var dailyTempMinMatch = responseText.match(/"temperature_2m_min":(\[[^\]]+\])/);
 
-                            var maxTemp = data.daily.temperature_2m_max[i];
-                            var minTemp = data.daily.temperature_2m_min[i];
-                            console.log(maxTemp);
-                            document.getElementById('maxTemp' + i).textContent = Math.round(maxTemp) + '°F';
-                            document.getElementById('minTemp' + i).textContent = Math.round(minTemp) + '°F';
+                        if (currentTempMatch && currentTempMatch[1]) {
+                            document.getElementById('current-temp').textContent = Math.round(Number(currentTempMatch[1])) + '°F';
+                        }
+
+                        if (dailyTempMaxMatch && dailyTempMaxMatch[1] && dailyTempMinMatch && dailyTempMinMatch[1]) {
+                            var dailyMaxTemps = dailyTempMaxMatch[1].match(/-?\d+(\.\d+)?/g);
+                            var dailyMinTemps = dailyTempMinMatch[1].match(/-?\d+(\.\d+)?/g);
+
+                            for (var i = 0; i < dailyMaxTemps.length; i++) {
+                                var maxTemp = dailyMaxTemps[i];
+                                var minTemp = dailyMinTemps[i];
+                                document.getElementById('maxTemp' + i).textContent = Math.round(Number(maxTemp)) + '°F';
+                                document.getElementById('minTemp' + i).textContent = Math.round(Number(minTemp)) + '°F';
+                            }
                         }
                         skycons.play();
                     }
