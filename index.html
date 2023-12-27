@@ -48,6 +48,8 @@
             var url = 'https://api.open-meteo.com/v1/forecast?latitude=37.7646489&longitude=-122.4647699&current=temperature_2m&hourly=temperature_2m&daily=weather_code,temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&wind_speed_unit=ms&precipitation_unit=inch&timezone=America%2FLos_Angeles';
             var skycons = new Skycons({"color": "white"});
 
+            console.log(url);
+
             function getSkycon(weatherCode) {
                 const skyconMap = {
                     0: Skycons.CLEAR_DAY,
