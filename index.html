@@ -89,6 +89,7 @@
 
                             var maxTemp = data.daily.temperature_2m_max[i];
                             var minTemp = data.daily.temperature_2m_min[i];
+                            console.log(maxTemp);
                             document.getElementById('maxTemp' + i).textContent = Math.round(maxTemp) + '°F';
                             document.getElementById('minTemp' + i).textContent = Math.round(minTemp) + '°F';
                         }
