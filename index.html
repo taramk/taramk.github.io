@@ -78,7 +78,7 @@
                     45: Skycons.FOG,
                     48: Skycons.FOG
                 };
-                return skyconMap[weatherCode] || Skycons.CLOUDY; // Default to CLOUDY if code not found
+                return skyconMap[weatherCode] || Skycons.CLOUDY;
             }
 
             function formatDateTime() {
@@ -108,6 +108,8 @@
                         var weatherCode = data.daily.weather_code[i];
                         var skyconType = getSkycon(weatherCode);
                         skycons.set('day' + i, skyconType);
+                        var maxTemp = data.daily.temperature_2m_max[i];
+                        console.log(maxTemp);
                         $('#temp' + i).html(Math.round(data.daily.temperature_2m_max[i]) + '&deg;F');
                     }
                     skycons.play();
